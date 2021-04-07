@@ -52,4 +52,14 @@ Meteor.methods({
       },
     });
   },
+
+  'tasks.removeAll'() {
+
+    if(!this.userId)
+    {
+      
+    }
+
+  },
+
 });

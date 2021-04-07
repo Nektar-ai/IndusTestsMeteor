@@ -61,6 +61,58 @@ if (Meteor.isServer) {
         assert.equal(tasks.length, 2);
         assert.isTrue(tasks.some(task => task.text === text));
       });
+
+      it("can't insert task without user content", () => {
+        const text = 'New Task';
+        const fn = () => mockMethodCall('tasks.insert', text);
+        assert.throw(fn, /Not authorized/);
+        assert.equal(TasksCollection.find().count(), 1);
+      });
+
+      it("can remove all task", () => {
+        mockMethodCall('tasks.insert', 'coucou', {
+          context: { userId },
+        })
+
+        assert.equal(TasksCollection.find().count(), 2);
+        mockMethodCall('tasks.removeAll', { context: { userId } });
+
+        assert.equal(TasksCollection.find().count(), 0);
+      });
+
+      it("can't remove all task without user content", () => {
+        const fn = () =>
+          mockMethodCall('tasks.removeAll');
+        assert.throw(fn, /Not authorized/);
+        assert.equal(TasksCollection.find().count(), 1);
+      });
+
+      it(`can remove all owned tasks`, () => {
+
+      TasksCollection.insert({
+        text: 'Test Task 2',
+        createdAt: new Date(),
+        userId,
+      });
+
+      TasksCollection.insert({
+        text: 'Test Task 3',
+        createdAt: new Date(),
+        userId,
+      });
+
+      // TasksCollection.insert({
+      //   text: 'Test Task 4',
+      //   createdAt: new Date(),
+      //   'somebody-else-id',
+      // });
+
+      assert.equal(TasksCollection.find().count(), 4);
+
+      mockMethodCall('rasks.removeAll', { context: { userId } });
+
+      assert.equal(TasksCollection.find().count(), 1);
+
     });
   });
-}
+})}
