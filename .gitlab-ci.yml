@@ -3,7 +3,8 @@ test-job1:
     script:
         - echo "--------------- METEOR TESTS ---------------"
         - echo "*** Current Repo ***"
-        - cd C:\Users\Nektar\git\repository\react-tutorial\src\simple-todos\step12
+        - pwd
+        - ls
         - echo "*** Install Meteor ***"
         - curl https://install.meteor.com/ | sh
         - echo "*** Meteor Commands***"
