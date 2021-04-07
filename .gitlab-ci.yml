@@ -5,6 +5,7 @@ test-job1:
         - echo "*** Current Repo ***"
         - pwd
         - ls
+        - cd src/simple-todos/step12
         - echo "*** Install Meteor ***"
         - curl https://install.meteor.com/ | sh
         - echo "*** Meteor Commands***"
