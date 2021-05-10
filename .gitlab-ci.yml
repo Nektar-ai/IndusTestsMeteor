@@ -1,0 +1,13 @@
+test-job1:  
+    stage: test
+    script:
+        - echo "--------------- METEOR TESTS ---------------"
+        - echo "*** Current Repo ***"
+        - pwd
+        - ls
+        - cd src/simple-todos/step12
+        - echo "*** Install Meteor ***"
+        - curl https://install.meteor.com/ | sh
+        - echo "*** Meteor Commands***"
+        - meteor npm install --allow-superuser
+        - meteor test --once --driver-package meteortesting:mocha --allow-superuser
