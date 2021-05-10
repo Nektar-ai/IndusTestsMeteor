@@ -9,6 +9,7 @@ if (Meteor.isServer) {
   describe('Tasks', () => {
     describe('methods', () => {
       const userId = Random.id();
+      const userIdTwo = userId + 967;
       let taskId;
 
       beforeEach(() => {
@@ -101,11 +102,11 @@ if (Meteor.isServer) {
         userId,
       });
 
-      // TasksCollection.insert({
-      //   text: 'Test Task 4',
-      //   createdAt: new Date(),
-      //   'somebody-else-id',
-      // });
+      TasksCollection.insert({
+        text: 'Test Task 4',
+        createdAt: new Date(),
+        userIdTwo,
+      });
 
       assert.equal(TasksCollection.find().count(), 4);
 
