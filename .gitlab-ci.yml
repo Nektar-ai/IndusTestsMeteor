@@ -1,5 +1,5 @@
 # STAGES
-stage: 
+stages: 
     - test
     - quality
     - build
