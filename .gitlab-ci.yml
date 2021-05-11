@@ -18,6 +18,8 @@ test-job:
         - echo "*** Meteor Commands***"
         - meteor npm install --allow-superuser
         - meteor test --once --driver-package meteortesting:mocha --allow-superuser
+    only:
+        - develop
 
 quality-job:
     stage: quality
@@ -32,4 +34,15 @@ quality-job:
         - meteor npm install --allow-superuser
         - meteor npm run-script lint --allow-superuser
 
-
+build-job:
+    stage: build
+    script:
+        - echo "------------- METEOR BUILD -------------"
+        - echo "*** Current Repo ***"
+        - pwd
+        - cd src/simple-todos/step12
+        - echo "*** Install Meteor ***"
+        - curl https://install.meteor.com | sh
+        - echo "*** Meteor Commands ***"
+        - meteor npm install --allow-superuser
+        - meteor npm run-script build --allow-superuser
