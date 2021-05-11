@@ -1,3 +1,11 @@
+# STAGES
+stage: 
+    - test
+    - quality
+    - build
+    - deploy
+
+# JOBS
 test-job:  
     stage: test
     script:
