@@ -9,7 +9,7 @@ test-job1:
         - curl https://install.meteor.com/ | sh
         - echo "*** Meteor Commands***"
         - meteor npm install --allow-superuser
-        - meteor npm run-script test
+        - meteor test --once --driver-package meteortesting:mocha --allow-superuser
 
 
 
