@@ -3,16 +3,20 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "test": "meteor test --once --driver-package meteortesting:mocha",
+    "test": "meteor test --once --driver-package meteortesting:mocha --allow-superuser",
+    "build": "meteor build ./build --allow-superuser",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint .",
+    "pretest": "npm run lint --silent"
   },
   "dependencies": {
-    "@babel/runtime": "^7.10.5",
-    "bcrypt": "^5.0.0",
-    "meteor-node-stubs": "^1.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "@babel/runtime": "^7.14.0",
+    "bcrypt": "^5.0.1",
+    "eslint-plugin-meteor": "^7.3.0",
+    "meteor-node-stubs": "^1.0.3",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "meteor": {
     "mainModule": {
@@ -22,6 +26,12 @@
     "testModule": "tests/main.js"
   },
   "devDependencies": {
-    "chai": "^4.2.0"
+    "chai": "^4.3.4",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0"
   }
 }
