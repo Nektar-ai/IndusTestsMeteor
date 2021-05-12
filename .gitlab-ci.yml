@@ -6,26 +6,6 @@ stages:
     - deploy
 
 # JOBS
-test-job:  
-    stage: test
-    script:
-        - echo "--------------- METEOR TEST ---------------"
-        - echo "*** Current Repo ***"
-        - pwd
-        - cd src/simple-todos/step12
-        - echo "*** Install Meteor ***"
-        - curl https://install.meteor.com/ | sh
-        - echo "*** Meteor Commands***"
-        - meteor npm install --allow-superuser
-        - meteor test --once --driver-package meteortesting:mocha --allow-superuser
-    only:
-        - branches
-    except:
-        - feature/CI
-    when: always
-    allow_failure: true
-    needs: [build-job]
-
 quality-job:
     stage: quality
     script:
@@ -56,6 +36,26 @@ build-job:
     when: always
     allow_failure: true
     needs: [quality-job]
+
+test-job:  
+    stage: test
+    script:
+        - echo "--------------- METEOR TEST ---------------"
+        - echo "*** Current Repo ***"
+        - pwd
+        - cd src/simple-todos/step12
+        - echo "*** Install Meteor ***"
+        - curl https://install.meteor.com/ | sh
+        - echo "*** Meteor Commands***"
+        - meteor npm install --allow-superuser
+        - meteor test --once --driver-package meteortesting:mocha --allow-superuser
+    only:
+        - branches
+    except:
+        - feature/CI
+    when: always
+    allow_failure: true
+    needs: [build-job]
 
 deploy-dev-job:
     stage: deploy
