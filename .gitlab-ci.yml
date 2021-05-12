@@ -50,7 +50,7 @@ build-job:
 deploy-dev-job:
     stage: deploy
     script: 
-        - "Deploys some code from the $CI_COMMIT_BRANCH branch on the dev environment."
+        - echo "Deploys some code from the $CI_COMMIT_BRANCH branch on the dev environment."
     # only:
     #     - develop
     allow_failure: false
@@ -58,7 +58,7 @@ deploy-dev-job:
 deploy-prod-job:
     stage: deploy
     script:
-        - "Deploys some code from the $CI_COMMIT_BRANCH branch on the prod environment."
+        - echo "Deploys some code from the $CI_COMMIT_BRANCH branch on the prod environment."
     # only:
     #     - master
     allow_failure: false
