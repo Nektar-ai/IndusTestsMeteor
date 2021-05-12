@@ -1,7 +1,46 @@
-test-job1:  
+# STAGES
+stages: 
+    - quality
+    - build
+    - test
+    - deploy
+
+# JOBS
+quality-job:
+    stage: quality
+    script:
+        - echo "------------- METEOR QUALITY -------------"
+        - echo "*** Current Repo ***"
+        - pwd
+        - cd src/simple-todos/step12
+        - echo "*** Install Meteor ***"
+        - curl https://install.meteor.com | sh
+        - echo "*** Meteor Commands ***"
+        - meteor npm install --allow-superuser
+        - meteor npm run-script lint --allow-superuser
+    when: always
+    allow_failure: true     #Autorisé parce que le build-job qui suit a besoin que le quality-job soit réussi
+
+build-job:
+    stage: build
+    script:
+        - echo "------------- METEOR BUILD -------------"
+        - echo "*** Current Repo ***"
+        - pwd
+        - cd src/simple-todos/step12
+        - echo "*** Install Meteor ***"
+        - curl https://install.meteor.com | sh
+        - echo "*** Meteor Commands ***"
+        - meteor npm install --allow-superuser
+        - meteor npm run-script build --allow-superuser
+    when: always
+    allow_failure: true
+    needs: [quality-job]
+
+test-job:  
     stage: test
     script:
-        - echo "--------------- METEOR TESTS ---------------"
+        - echo "--------------- METEOR TEST ---------------"
         - echo "*** Current Repo ***"
         - pwd
         - cd src/simple-todos/step12
@@ -9,8 +48,33 @@ test-job1:
         - curl https://install.meteor.com/ | sh
         - echo "*** Meteor Commands***"
         - meteor npm install --allow-superuser
-        - meteor npm run-script test
+        - meteor test --once --driver-package meteortesting:mocha --allow-superuser
+    only:
+        - branches
+    except:
+        - feature/CI
+    when: always
+    allow_failure: true
+    needs: [build-job]
 
+deploy-dev-job:
+    stage: deploy
+    script:
+        - echo "------------- METEOR DEPLOY DEV -------------"
+        - echo "Deploys some code from the $CI_COMMIT_BRANCH branch on the dev environment."
+    only:
+        - develop
+    when: on_success
+    allow_failure: false
+    needs: [test-job]
 
-
-
+deploy-prod-job:
+    stage: deploy
+    script:
+        - echo "------------- METEOR DEPLOY PROD -------------"
+        - echo "Deploys some code from the $CI_COMMIT_BRANCH branch on the prod environment."
+    only:
+        - master
+    when: on_success
+    allow_failure: false
+    needs: [test-job]

@@ -3,12 +3,11 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "test": "meteor test --once --driver-package meteortesting:mocha --allow-superuser",
+    "test": "meteor test --once --driver-package meteortesting:mocha",
     "build": "meteor build ./build --allow-superuser",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
-    "lint": "eslint .",
-    "pretest": "npm run lint --silent"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@babel/runtime": "^7.14.0",
