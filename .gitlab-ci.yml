@@ -51,14 +51,14 @@ deploy-dev-job:
     stage: deploy
     script: 
         - "Deploys some code from the $CI_COMMIT_BRANCH branch on the dev environment."
-    only:
-        - develop
+    # only:
+    #     - develop
     allow_failure: false
 
 deploy-prod-job:
     stage: deploy
     script:
         - "Deploys some code from the $CI_COMMIT_BRANCH branch on the prod environment."
-    only:
-        - master
+    # only:
+    #     - master
     allow_failure: false
