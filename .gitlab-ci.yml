@@ -19,7 +19,12 @@ test-job:
         - meteor npm install --allow-superuser
         - meteor test --once --driver-package meteortesting:mocha --allow-superuser
     only:
-        - develop
+        - branches
+    except:
+        - feature/CI
+    when: always
+    allow_failure: true
+    needs: [build-job]
 
 quality-job:
     stage: quality
@@ -33,6 +38,8 @@ quality-job:
         - echo "*** Meteor Commands ***"
         - meteor npm install --allow-superuser
         - meteor npm run-script lint --allow-superuser
+    when: always
+    allow_failure: true     #Autorisé parce que le build-job qui suit a besoin que le quality-job soit réussi
 
 build-job:
     stage: build
@@ -46,19 +53,28 @@ build-job:
         - echo "*** Meteor Commands ***"
         - meteor npm install --allow-superuser
         - meteor npm run-script build --allow-superuser
+    when: always
+    allow_failure: true
+    needs: [quality-job]
 
 deploy-dev-job:
     stage: deploy
-    script: 
+    script:
+        - echo "------------- METEOR DEPLOY DEV -------------"
         - echo "Deploys some code from the $CI_COMMIT_BRANCH branch on the dev environment."
-    # only:
-    #     - develop
+    only:
+        - develop
+    when: on_success
     allow_failure: false
+    needs: [test-job]
 
 deploy-prod-job:
     stage: deploy
     script:
+        - echo "------------- METEOR DEPLOY PROD -------------"
         - echo "Deploys some code from the $CI_COMMIT_BRANCH branch on the prod environment."
-    # only:
-    #     - master
+    only:
+        - master
+    when: on_success
     allow_failure: false
+    needs: [test-job]
