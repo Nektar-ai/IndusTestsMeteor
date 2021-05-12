@@ -1,8 +1,8 @@
 # STAGES
 stages: 
-    - test
     - quality
     - build
+    - test
     - deploy
 
 # JOBS
